@@ -1,16 +1,18 @@
 #!/bin/sh
-cp ./wireguard.ko /lib/modules/
-chmod 644 /lib/modules/wireguard.ko
+echo -e "\n Run with ROOT permissions !!!"
+echo -e "run command: sudo sh $0"
+echo -e "\n"
+cp ./wireguard.ko /lib/modules/ >> ./log.txt 2>&1
+chmod 644 /lib/modules/wireguard.ko >> ./log.txt 2>&1
 
 # register the module
-insmod /lib/modules/wireguard.ko
+insmod /lib/modules/wireguard.ko >> ./log.txt 2>&1
 
 #autorun at next restart
-tee /usr/local/etc/rc.d/wireguard.sh <<EOF
+tee /usr/local/etc/rc.d/wireguard.sh >> /dev/null <<'HERE'
     #!/bin/bash
     MODULES_UNLOAD="wireguard.ko"
     start_modules(){
-        echo "--- Load module ---"
         echo "Loading wireguard.ko"
         insmod /lib/modules/wireguard.ko
     }
@@ -33,6 +35,17 @@ tee /usr/local/etc/rc.d/wireguard.sh <<EOF
         exit 1
         ;;
     esac
-EOF
+HERE
 
-chmod 644 /usr/local/etc/rc.d/wireguard.sh
+chmod 755 /usr/local/etc/rc.d/wireguard.sh >> ./log.txt 2>&1
+
+if [ -s "log.txt" ]
+then
+ echo -e "\n "
+ echo -e "\nCheck file log.txt for any errors !"
+ echo -e "\n "
+else
+ echo -e "\n ================================================"
+ echo "---> Wireguard module installed succesfully <---"
+ echo -e "\n ================================================"
+fi
