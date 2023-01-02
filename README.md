@@ -6,7 +6,7 @@ for DSM 7.1 tested for DS920+
 >
 >cd wireguard-module-synology
 
- and run as root useer:
+ and run as root user:
 >sudo sh ./install_module.sh
 
 in case of eny errors check the screen or file log.txt
