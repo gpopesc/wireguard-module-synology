@@ -3,6 +3,7 @@ for DSM 7.1 tested for DS920+
 
 # Install with git  or download the files in Synology
 >git clone https://github.com/gpopesc/wireguard-module-synology.git
+>
 >cd wireguard-module-synology
 
  and run as root useer:
