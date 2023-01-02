@@ -10,3 +10,11 @@ for DSM 7.1 tested for DS920+
 >sudo sh ./install_module.sh
 
 in case of eny errors check the screen or file log.txt
+
+Further you can install in docker wireguard
+
+https://github.com/WeeJeWel/wg-easy 
+
+or
+
+https://github.com/linuxserver/docker-wireguard 
