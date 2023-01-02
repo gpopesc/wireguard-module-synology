@@ -6,7 +6,7 @@ chmod 644 /lib/modules/wireguard.ko
 insmod /lib/modules/wireguard.ko
 
 #autorun at next restart
-sudo tee /usr/local/etc/rc.d/wireguard.sh <<EOF
+tee /usr/local/etc/rc.d/wireguard.sh <<EOF
     #!/bin/bash
     MODULES_UNLOAD="wireguard.ko"
     start_modules(){
