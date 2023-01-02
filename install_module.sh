@@ -42,7 +42,7 @@ chmod 755 /usr/local/etc/rc.d/wireguard.sh >> ./log.txt 2>&1
 if [ -s "log.txt" ]
 then
  echo -e "\n "
- echo -e "\nCheck file log.txt for any errors !"
+ echo -e "\nCheck file log.txt for errors !"
  echo -e "\n "
 else
  echo -e "\n ================================================"
