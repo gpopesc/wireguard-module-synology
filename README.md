@@ -1,5 +1,5 @@
 # Install only wireguard module for Synology
-for DSM 7.1, tested for DS920+
+for DSM 7.1 and 7.2, tested for DS920+
 
 # Install with git  or download the files in Synology
 >git clone https://github.com/gpopesc/wireguard-module-synology.git
