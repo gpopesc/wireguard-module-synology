@@ -1,12 +1,25 @@
 # Install only wireguard module for Synology
-for DSM 7.1 and 7.2, tested for DS920+
+for DSM 7.2, tested for DS920+
+
+choose your Synology arhitecture from here:
+https://kb.synology.com/en-ca/DSM/tutorial/What_kind_of_CPU_does_my_NAS_have 
+
+You cand choose among foloowing models:
+apollolake"
+ - braswell
+ - broadwell
+ - broadwellnk
+ - denverton
+ - geminilake
+ - r1000
+ - v1000
+
 
 # Install with git  or download the files in Synology
 >git clone https://github.com/gpopesc/wireguard-module-synology.git
 >
 >cd wireguard-module-synology
 
-in case you have DSM 7.1, rename wireguard.ko to wireguard_7.2.ko and wireguard_7.1.ko to wireguard.ko
 
 and run as root user:
 >sudo sh ./install_module.sh
