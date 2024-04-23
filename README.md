@@ -1,4 +1,4 @@
-# Install only wireguard module for Synology
+# Install wireguard module for Synology
 for DSM 7.2, tested for DS920+
 
 choose your Synology arhitecture from here:
@@ -28,7 +28,7 @@ in case of eny errors check the screen or log.txt
 
 restart synology if it was uninstalled first.
 
-Further you can install in docker wireguard
+# Further you can install wireguard in docker
 
 https://github.com/WeeJeWel/wg-easy 
 
