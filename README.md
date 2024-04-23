@@ -5,7 +5,7 @@ choose your Synology arhitecture from here:
 https://kb.synology.com/en-ca/DSM/tutorial/What_kind_of_CPU_does_my_NAS_have 
 
 You cand choose among foloowing models:
-apollolake"
+ - apollolake
  - braswell
  - broadwell
  - broadwellnk
