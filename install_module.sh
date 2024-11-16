@@ -1,65 +1,73 @@
 #!/bin/sh
 echo -e "\n ------> Run with ROOT permissions !!! <------"
 echo -e " ---> run command: sudo sh $0   <---"
+echo -e " ---> optional: use '--cpu-type X' as parameter   <---"
 echo -e "\n"
 
-echo -e "\n Type 1 for apollolake"
-echo -e "\n Type 2 for braswell"
-echo -e "\n Type 3 for broadwell"
-echo -e "\n Type 4 for broadwellnk"
-echo -e "\n Type 5 for denverton"
-echo -e "\n Type 6 for geminilake"
-echo -e "\n Type 7 for r1000"
-echo -e "\n Type 8 for v1000"
-echo -e "\n Type 9 to uninstall"
+# Parse command-line arguments
+for arg in "$@"; do
+    case $arg in
+        --cpu-type)
+            option=$2
+            shift 2
+            ;;
+        *)
+            ;;
+    esac
+done
 
-read -p "Your option : " option
+# If no option provided via CLI, prompt the user
+if [ -z "$option" ]; then
+    echo -e "\n Type 1 for apollolake"
+    echo -e "\n Type 2 for braswell"
+    echo -e "\n Type 3 for broadwell"
+    echo -e "\n Type 4 for broadwellnk"
+    echo -e "\n Type 5 for denverton"
+    echo -e "\n Type 6 for geminilake"
+    echo -e "\n Type 7 for r1000"
+    echo -e "\n Type 8 for v1000"
+    echo -e "\n Type 9 to uninstall"
 
-# Check the username and password are valid or not
-if (( $option == "1" ))
-    then
+    read -p "Your option : " option
+fi
+
+# Perform the action based on the option
+case "$option" in
+    1)
         cp ./7.2/apollolake.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "2" ))
-    then
+        ;;
+    2)
         cp ./7.2/braswell.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "3" ))
-    then
+        ;;
+    3)
         cp ./7.2/broadwell.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "4" ))
-    then
+        ;;
+    4)
         cp ./7.2/broadwellnk.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "5" ))
-    then
+        ;;
+    5)
         cp ./7.2/denverton.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "6" ))
-    then
+        ;;
+    6)
         cp ./7.2/geminilake.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "7" ))
-    then
+        ;;
+    7)
         cp ./7.2/r1000.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "8" ))
-    then
+        ;;
+    8)
         cp ./7.2/v1000.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "9" ))
-    then
+        ;;
+    9)
         rmmod /lib/modules/wireguard.ko
         rm -i /lib/modules/wireguard.ko
         rm -i /usr/local/etc/rc.d/wireguard.sh
-
-else
-   echo " No valid option selected "
-   echo " type any key to exit "
-   read -t 15
-   exit
-fi
+        ;;
+    *)
+        echo "No valid option selected"
+        echo "Exiting..."
+        exit 1
+        ;;
+esac
 
 chmod 644 /lib/modules/wireguard.ko >> ./log.txt 2>&1
 
