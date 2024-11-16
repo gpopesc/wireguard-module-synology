@@ -45,6 +45,9 @@ if [ -z "$cpu_name" ]; then
     exit 1
 fi
 
+# Echo the selected option to log.txt
+echo "Option Selected: $cpu_name" >> ./log.txt
+
 # Display the selected option
 echo "Option Selected: $cpu_name"
 
