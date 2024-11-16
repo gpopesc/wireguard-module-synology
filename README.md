@@ -4,7 +4,7 @@ for DSM 7.2, tested for DS920+
 Choose your Synology arhitecture from here:
 https://kb.synology.com/en-ca/DSM/tutorial/What_kind_of_CPU_does_my_NAS_have 
 
-You cand choose among following models:
+You can choose from following models as an `option`:
  1. apollolake
  2. braswell
  3. broadwell
@@ -36,13 +36,13 @@ Use option 9 to uninstall.
 
 # Run using Synology DSM Task Scheduler
 
-1. Open Control Panel
-2. Go to Task Scheduler
-3. Press Create -> User-defined script
-4. Give it a name "Install WG Modules"
+1. Open `Control Panel`
+2. Go to `Task Scheduler`
+3. Press `Create` -> `Scheduled Task` -> `User-defined script`
+4. Give it a name like "Install WG Modules" and *uncheck* the `Enabled` checkbox
 5. Select `root` as the user
 6. The schedule tab can be ignored
-7. In task settings enter an email if you want and check Send run details by email (you will need email notifications to be configured in DSM)
+7. In task settings enter an email if you want and check `Send run details by email` (you will need email notifications to be configured in DSM)
 8. Paste the following user-defined script. Edit the option and temporary path as needed:
 
 ```
@@ -68,7 +68,7 @@ sudo sh ./install_module.sh --option "$CPU_TYPE"
 cat ./log.txt
 ```
 
-9. Save and *uncheck* the `enabled` checkbox
+9. Save
 10. Select and Run
 
 
