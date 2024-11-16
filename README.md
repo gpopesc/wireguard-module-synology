@@ -65,7 +65,7 @@ cd "$LOCAL_PATH"
 sudo sh ./install_module.sh --option "$OPTION"
 
 # Echo the log
-cat ./log.txt
+cat "$LOCAL_PATH/log.txt"
 ```
 
 9. Save
