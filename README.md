@@ -50,7 +50,7 @@ Use option 9 to uninstall.
 
 # Variables
 LOCAL_PATH="/volume1/docker/_temp/wireguard-module-synology"
-CPU_TYPE="6"
+OPTION="6"
 
 # Remove the existing directory
 #rm -R "$LOCAL_PATH"
@@ -62,7 +62,7 @@ git clone https://github.com/gpopesc/wireguard-module-synology.git "$LOCAL_PATH"
 cd "$LOCAL_PATH"
 
 # Run the installation script
-sudo sh ./install_module.sh --option "$CPU_TYPE"
+sudo sh ./install_module.sh --option "$OPTION"
 
 # Echo the log
 cat ./log.txt
