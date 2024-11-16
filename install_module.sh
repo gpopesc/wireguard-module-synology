@@ -1,109 +1,106 @@
-#!/bin/sh
+#!/bin/bash
 echo -e "\n ------> Run with ROOT permissions !!! <------"
-echo -e " ---> run command: sudo sh $0   <---"
+echo -e " ---> run command: sudo bash $0 --option <type>   <---"
+echo -e " ---> optional: use '--option X' as parameter   <---"
 echo -e "\n"
 
-echo -e "\n Type 1 for apollolake"
-echo -e "\n Type 2 for braswell"
-echo -e "\n Type 3 for broadwell"
-echo -e "\n Type 4 for broadwellnk"
-echo -e "\n Type 5 for denverton"
-echo -e "\n Type 6 for geminilake"
-echo -e "\n Type 7 for r1000"
-echo -e "\n Type 8 for v1000"
-echo -e "\n Type 9 to uninstall"
+# Define an associative array mapping options to CPU names
+declare -A options=(
+    [1]="apollolake"
+    [2]="braswell"
+    [3]="broadwell"
+    [4]="broadwellnk"
+    [5]="denverton"
+    [6]="geminilake"
+    [7]="r1000"
+    [8]="v1000"
+    [9]="uninstall"
+)
 
-read -p "Your option : " option
+# Parse command-line arguments
+for arg in "$@"; do
+    case $arg in
+        --option)
+            option=$2
+            shift 2
+            ;;
+        *)
+            ;;
+    esac
+done
 
-# Check the username and password are valid or not
-if (( $option == "1" ))
-    then
-        cp ./7.2/apollolake.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "2" ))
-    then
-        cp ./7.2/braswell.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "3" ))
-    then
-        cp ./7.2/broadwell.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "4" ))
-    then
-        cp ./7.2/broadwellnk.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "5" ))
-    then
-        cp ./7.2/denverton.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "6" ))
-    then
-        cp ./7.2/geminilake.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "7" ))
-    then
-        cp ./7.2/r1000.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "8" ))
-    then
-        cp ./7.2/v1000.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
-
-elif (( $option == "9" ))
-    then
-        rmmod /lib/modules/wireguard.ko
-        rm -i /lib/modules/wireguard.ko
-        rm -i /usr/local/etc/rc.d/wireguard.sh
-
-else
-   echo " No valid option selected "
-   echo " type any key to exit "
-   read -t 15
-   exit
+# If no option provided via CLI, prompt the user
+if [ -z "$option" ]; then
+    echo -e "\nSelect Option:"
+    for key in "${!options[@]}"; do
+        echo -e " Type $key for ${options[$key]}"
+    done
+    read -p "Your option : " option
 fi
 
-chmod 644 /lib/modules/wireguard.ko >> ./log.txt 2>&1
+# Validate the selection
+cpu_name=${options[$option]}
+if [ -z "$cpu_name" ]; then
+    echo "Invalid option selected. Exiting."
+    exit 1
+fi
 
-# register the module
-insmod /lib/modules/wireguard.ko >> ./log.txt 2>&1
+# Echo the selected option to log.txt
+echo "Option Selected: $cpu_name" >> ./log.txt
 
-#autorun at next restart
-tee /usr/local/etc/rc.d/wireguard.sh >> /dev/null <<'HERE'
-    #!/bin/bash
-    MODULES_UNLOAD="wireguard.ko"
-    start_modules(){
-        echo "Loading wireguard.ko"
-        insmod /lib/modules/wireguard.ko
-    }
-    stop_modules(){
-        echo "--- Unload modules ---"
-        for i in $MODULES_UNLOAD; do
-            echo "Unloading $i"
-            rmmod $i
-        done
-    }
-    case "$1" in
-    start)
-        start_modules
-        ;;
-    stop)
-        stop_modules
-        ;;
-    *)
-        echo "usage: $0 { start | stop }" >&2
-        exit 1
-        ;;
-    esac
+# Display the selected option
+echo "Option Selected: $cpu_name"
+
+# Perform the action based on the option
+if [ "$cpu_name" = "uninstall" ]; then
+    rmmod /lib/modules/wireguard.ko
+    rm -i /lib/modules/wireguard.ko
+    rm -i /usr/local/etc/rc.d/wireguard.sh
+else
+    cp ./7.2/${cpu_name}.ko /lib/modules/wireguard.ko > ./log.txt 2>&1
+    chmod 644 /lib/modules/wireguard.ko >> ./log.txt 2>&1
+
+    # Register the module
+    insmod /lib/modules/wireguard.ko >> ./log.txt 2>&1
+fi
+
+# Autorun at next restart
+if [ "$cpu_name" != "uninstall" ]; then
+    tee /usr/local/etc/rc.d/wireguard.sh >> /dev/null <<'HERE'
+#!/bin/bash
+MODULES_UNLOAD="wireguard.ko"
+start_modules(){
+    echo "Loading wireguard.ko"
+    insmod /lib/modules/wireguard.ko
+}
+stop_modules(){
+    echo "--- Unload modules ---"
+    for i in $MODULES_UNLOAD; do
+        echo "Unloading $i"
+        rmmod $i
+    done
+}
+case "$1" in
+start)
+    start_modules
+    ;;
+stop)
+    stop_modules
+    ;;
+*)
+    echo "usage: $0 { start | stop }" >&2
+    exit 1
+    ;;
+esac
 HERE
 
-chmod +x /usr/local/etc/rc.d/wireguard.sh >> ./log.txt 2>&1
+    chmod +x /usr/local/etc/rc.d/wireguard.sh >> ./log.txt 2>&1
+fi
 
-if [ -s "log.txt" ]
-then
- echo -e "\n "
- echo -e "\nCheck file log.txt for errors !"
- echo -e "\n "
+if [ -s "log.txt" ]; then
+    echo -e "\nCheck file log.txt for errors!"
 else
- echo -e "\n ================================================"
- echo "---> Wireguard module installed succesfully <---"
- echo -e "\n ================================================"
+    echo -e "\n ================================================"
+    echo "---> Wireguard module installed successfully <---"
+    echo -e "\n ================================================"
 fi
