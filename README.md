@@ -24,7 +24,7 @@ You cand choose among following models:
 and run as root user:
 >sudo sh ./install_module.sh
 
-in case of eny errors check the screen or log.txt
+in case of any errors, check the screen or log.txt
 
 restart synology if it was uninstalled first.
 
