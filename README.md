@@ -4,7 +4,7 @@ for DSM 7.2, tested for DS920+
 choose your Synology arhitecture from here:
 https://kb.synology.com/en-ca/DSM/tutorial/What_kind_of_CPU_does_my_NAS_have 
 
-You cand choose among foloowing models:
+You cand choose among following models:
  - apollolake
  - braswell
  - broadwell
