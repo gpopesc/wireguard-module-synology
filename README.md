@@ -1,5 +1,5 @@
 # Install wireguard module for Synology
-for DSM 7.2, tested for DS920+
+for DSM 7.2, DSM 7.3, DSM 7.4 - tested with DS920+
 
 choose your Synology arhitecture from here:
 https://kb.synology.com/en-ca/DSM/tutorial/What_kind_of_CPU_does_my_NAS_have 
